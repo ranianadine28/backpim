@@ -1,6 +1,10 @@
 import express from 'express';
 import mongoose from 'mongoose';
+import { notFoundError, errorHandler } from './middelwares/error-handler.js';
+import morgan from 'morgan';
+import cors from 'cors';
 
+import userRoute from './routes/userRoute.js';
 
 
 const app = express();
@@ -26,7 +30,30 @@ mongoose
 app.use(express.json());
 
 app.use(express.urlencoded({ extended: true }));
+app.use(cors());
+app.use(morgan("dev"));
 
+
+
+
+
+
+app.use((req, res, next) => {
+  console.log("middleware just run !");
+  next();
+});
+app.use("/gse", (req, res, next) => {
+  console.log("Middleware just ran on a gse route !");
+  next();
+});
+
+
+app.use('/user', userRoute);
+
+
+app.use('/image', express.static('public/images'));
+app.use(notFoundError);
+app.use(errorHandler);
 app.listen(port, () => {
     console.log(`Server running at http://localhost:${port}/`);
   });
