@@ -4,10 +4,14 @@ import openai
 import json
 import random
 import pyttsx3
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
 
 
 # OpenAI API variables
-API_KEY = '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'
+API_KEY = os.getenv("API_KEY")
 model = 'text-davinci-003'
 openai.api_key = API_KEY
 

@@ -1,0 +1,15 @@
+{
+    "manic symptoms":{
+        "elevated mood for more than one week" : -1,
+        "elevated mood nearly everyday" : -1,
+        "Inflated self-esteem or grandiosity" : -1,
+        "Decreased need for sleep" : -1,
+        "More talkative than usual or pressure to keep talking" : -1,
+        "Flight of ideas or subjective experience that thoughts are racing" : -1,
+        "Distractibility (i.e., attention too easily drawn to unimportant or irrelevant external stimuli)" : -1,
+        "Increase in goal-directed activity (either socially, at work or school, or sexually) or psychomotor agitation" : -1,
+        "Excessive involvement in activities that have a high potential for painful consequences (e.g., engaging in unrestrained buying sprees, sexual indiscretions, or foolish business investments)." : -1,
+        "The mood disturbance is sufficiently severe to cause marked impairment in social or occupational functioning or to necessitate hospitalization to prevent harm to self or others, or there are psychotic features." : -1,
+        "The episode is not attributable to the direct physiological effects of a substance (e.g., a drug of abuse, a medication, or other treatment) or another medical condition." : -1
+    }
+}
