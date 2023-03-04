@@ -6,8 +6,11 @@ import random
 import pyttsx3
 from dotenv import load_dotenv
 import os
+import speech_recognition as sr
+import time
 
 load_dotenv()
+rec = sr.Recognizer()
 
 
 # OpenAI API variables
@@ -53,18 +56,36 @@ manic_symptoms = '''{
 text = "I feel amazing! I have so much energy and my mind is racing with new ideas and plans. I have only slept a few hours, but I don t feel tired at all. I am excited to take on the world and accomplish all my goals. I have been talking a mile a minute and making lots of new friends. I am feeling so creative and productive, I don t think I ll ever come down from this high!"
 text2 = "I didn't sleep recently "
 
+#First question 
+questions = ["Have you ever had the opposite of depression , when you've been extremely happy , over the top , doing things out of character or talking too fast ?"]
+random_question = random.choice(questions)
+engine.say(random_question)
+engine.runAndWait()
+# Record first answer
+with sr.Microphone() as mic:
+    print('You can start talking now')
+    audio = rec.listen(mic)
+    print('Time is over')
+# Voice recognition
+try:
+    text3 = rec.recognize_google(audio)
+except:
+    print('ERROR')
 
 # First prompt sent
-prompt2 = 'analyse this text "' + text2 + \
+prompt2 = 'analyse this text "' + text3 + \
     '" and change the values of this json from -1 to 1 if the symptoms are present in the text or keep them -1 if you can not confirm if the symptoms are present \n' + manic_symptoms
 # print("prompt :"+prompt2)
 print("initial JSON :"+manic_symptoms)
+
+# number of words for first answer
+countOfWords = len(text2.split())
 
 
 #
 response = openai.Completion.create(
     #  prompt=prompt2,
-    prompt='analyse this text "' + text2 +
+    prompt='analyse this text "' + text3 +
     '"and change the values of this json from -1 to 1 if the symptoms are present in the text or keep them -1 if you can not confirm if the symptoms are present \n' + manic_symptoms,
     model=model,
     max_tokens=1000
