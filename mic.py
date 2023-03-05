@@ -1,7 +1,8 @@
 import speech_recognition as sr
 import time
+from datetime import timedelta
 
-
+"""
 rec = sr.Recognizer()
 
 # voice recording
@@ -36,3 +37,7 @@ except:
 
 elapsed_time = end_time - start_time
 print("Elapsed time: ", elapsed_time, "seconds")
+"""
+sec = 98
+delta = timedelta(seconds=sec)
+print(delta)

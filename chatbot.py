@@ -8,6 +8,8 @@ from dotenv import load_dotenv
 import os
 import speech_recognition as sr
 import time
+from datetime import timedelta
+
 
 load_dotenv()
 rec = sr.Recognizer()
@@ -56,16 +58,20 @@ manic_symptoms = '''{
 text = "I feel amazing! I have so much energy and my mind is racing with new ideas and plans. I have only slept a few hours, but I don t feel tired at all. I am excited to take on the world and accomplish all my goals. I have been talking a mile a minute and making lots of new friends. I am feeling so creative and productive, I don t think I ll ever come down from this high!"
 text2 = "I didn't sleep recently "
 
-#First question 
+# First question
 questions = ["Have you ever had the opposite of depression , when you've been extremely happy , over the top , doing things out of character or talking too fast ?"]
 random_question = random.choice(questions)
 engine.say(random_question)
 engine.runAndWait()
-# Record first answer
+# Record first answer + answer duration
+start_time = time.time()
 with sr.Microphone() as mic:
     print('You can start talking now')
     audio = rec.listen(mic)
     print('Time is over')
+end_time = time.time()
+elapsed_time = end_time - start_time
+total_duration = elapsed_time
 # Voice recognition
 try:
     text3 = rec.recognize_google(audio)
@@ -79,7 +85,7 @@ prompt2 = 'analyse this text "' + text3 + \
 print("initial JSON :"+manic_symptoms)
 
 # number of words for first answer
-countOfWords = len(text2.split())
+countOfWords = len(text3.split())
 
 
 #
@@ -88,7 +94,7 @@ response = openai.Completion.create(
     prompt='analyse this text "' + text3 +
     '"and change the values of this json from -1 to 1 if the symptoms are present in the text or keep them -1 if you can not confirm if the symptoms are present \n' + manic_symptoms,
     model=model,
-    max_tokens=1000
+    max_tokens=1500
 )
 
 # Initial response (in case of api errors)
@@ -117,7 +123,24 @@ while end == 0 or loop_three_times < 3:
         random_question = random.choice(questions)
         engine.say(random_question)
         engine.runAndWait()
-        input2 = input(random_question)
+        print(random_question)
+        # input2 = input(random_question)
+        start_time = time.time()
+        with sr.Microphone() as mic:
+            print('You can start talking now')
+            audio = rec.listen(mic)
+            print('Time is over')
+        # Voice recognition
+        try:
+            input2 = rec.recognize_google(audio)
+        except:
+            print('ERROR')
+        print(input2)
+        end_time = time.time()
+        elapsed_time = end_time - start_time
+        total_duration += elapsed_time
+
+        countOfWords += len(input2.split())
 
         response2 = openai.Completion.create(
 
@@ -144,7 +167,23 @@ while end == 0 or loop_three_times < 3:
         random_question = random.choice(questions)
         engine.say(random_question)
         engine.runAndWait()
-        input2 = input(random_question)
+        print(random_question)
+        # input2 = input(random_question)
+        start_time = time.time()
+        with sr.Microphone() as mic:
+            print('You can start talking now')
+            audio = rec.listen(mic)
+            print('Time is over')
+        # Voice recognition
+        try:
+            input2 = rec.recognize_google(audio)
+        except:
+            print('ERROR')
+        print(input2)
+        end_time = time.time()
+        elapsed_time = end_time - start_time
+        countOfWords += len(input2.split())
+        total_duration += elapsed_time
         print('considering this question :"'+random_question+'" and this  answer :"' + input2 +
               '" identify if the answer says if the person has an elevated mood for most of the day or not , if yes answer "1" if not answer "0" , only answer by 1 or 0')
         response2 = openai.Completion.create(
@@ -173,7 +212,24 @@ while end == 0 or loop_three_times < 3:
         random_question = random.choice(questions)
         engine.say(random_question)
         engine.runAndWait()
-        input2 = input(random_question)
+        print(random_question)
+        # input2 = input(random_question)
+        start_time = time.time()
+        with sr.Microphone() as mic:
+            print('You can start talking now')
+            audio = rec.listen(mic)
+            print('Time is over')
+        # Voice recognition
+        try:
+            input2 = rec.recognize_google(audio)
+        except:
+            print('ERROR')
+        print(input2)
+        end_time = time.time()
+        elapsed_time = end_time - start_time
+        total_duration += elapsed_time
+        countOfWords += len(input2.split())
+
         response2 = openai.Completion.create(
 
             #  prompt=prompt2,
@@ -200,7 +256,24 @@ while end == 0 or loop_three_times < 3:
         random_question = random.choice(questions)
         engine.say(random_question)
         engine.runAndWait()
-        input2 = input(random_question)
+        # input2 = input(random_question)
+        print(random_question)
+        start_time = time.time()
+        with sr.Microphone() as mic:
+            print('You can start talking now')
+            audio = rec.listen(mic)
+            print('Time is over')
+        # Voice recognition
+        try:
+            input2 = rec.recognize_google(audio)
+        except:
+            print('ERROR')
+        print(input2)
+        end_time = time.time()
+        elapsed_time = end_time - start_time
+        total_duration += elapsed_time
+        countOfWords += len(input2.split())
+
         response2 = openai.Completion.create(
 
             #  prompt=prompt2,
@@ -227,7 +300,24 @@ while end == 0 or loop_three_times < 3:
         random_question = random.choice(questions)
         engine.say(random_question)
         engine.runAndWait()
-        input2 = input(random_question)
+        # input2 = input(random_question)
+        print(random_question)
+        start_time = time.time()
+        with sr.Microphone() as mic:
+            print('You can start talking now')
+            audio = rec.listen(mic)
+            print('Time is over')
+        # Voice recognition
+        try:
+            input2 = rec.recognize_google(audio)
+        except:
+            print('ERROR')
+        print(input2)
+        end_time = time.time()
+        elapsed_time = end_time - start_time
+        total_duration += elapsed_time
+        countOfWords += len(input2.split())
+
         response2 = openai.Completion.create(
 
             #  prompt=prompt2,
@@ -252,3 +342,12 @@ while end == 0 or loop_three_times < 3:
 
     # counter for number of loops
     loop_three_times += 1
+
+print("number of words is : " + str(countOfWords))
+print("speech duration in secconds : " + str(total_duration))
+total_duration_minutes = total_duration / 60
+print("speech duration in minutes : " + str(total_duration_minutes))
+speech_duration = timedelta(seconds=total_duration)
+print("speech duration hh:mm:ss -> "+str(speech_duration))
+words_per_minute = countOfWords // total_duration_minutes
+print("words per minute : " + str(words_per_minute))
