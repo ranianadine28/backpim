@@ -289,14 +289,11 @@ while end == 0 or loop_three_times < 3:
             data['manic symptoms']['Decreased need for sleep'] = 1
         print(data)
 
-    # 4 Test for Decreased need for sleep
-    if (data['manic symptoms']['Decreased need for sleep'] == -1):
-        questions = ["Have you been having trouble falling asleep at night? Or are you finding that you need less sleep than usual?",
-                     "Have you been experiencing any racing thoughts or ideas lately? Do you find that your mind is racing at night when you're trying to sleep?",
-                     "Have you been experiencing any disruptions in your sleep lately? Are you waking up frequently or feeling more tired than usual during the day?",
-                     "How many hours of sleep did you get last night?",
-                     "Have you had any trouble falling or staying asleep?",
-                     "Do you feel like you could function well without much sleep?"]
+    # 5 Test for More talkative than usual
+    if (data['manic symptoms']['More talkative than usual or pressure to keep talking'] == -1):
+        questions = ["Do you find it hard to stop talking?",
+                     "Have you friends or family commented on the way you are talking?",
+                     "Do you find yourself talking more than usual?"]
         random_question = random.choice(questions)
         engine.say(random_question)
         engine.runAndWait()
@@ -322,7 +319,7 @@ while end == 0 or loop_three_times < 3:
 
             #  prompt=prompt2,
             prompt='a person who could potentialy be in a manic episode got asked this question : "'+random_question + \
-            '" trying to identify it he has less need for sleep than the average person , analyse the answer and answer by "0" if you couldn t identify the symptom or by "1" if you could identify the symptom ,only answer by 1 or 0, here is the answer :' + input2,
+            '" trying to identify it he is more talktive than usual or pressure to keep talking , analyse the answer and answer by "0" if you couldn t identify the symptom or by "1" if you could identify the symptom or "-1" if you can not confirm nor deny ,only answer by 1 or 0 or -1, here is the answer :' + input2,
             model=model,
             max_tokens=10
         )
@@ -331,23 +328,241 @@ while end == 0 or loop_three_times < 3:
             data['manic symptoms']['Decreased need for sleep'] = 0
         elif (response2.choices[0].text == "\n\n1"):
             data['manic symptoms']['Decreased need for sleep'] = 1
+        elif (response2.choices[0].text == "\n\n-1"):
+            data['manic symptoms']['Decreased need for sleep'] = -1
         print(data)
 
+    # 6 Test for Flight of ideas
+    if (data['manic symptoms']['Flight of ideas or subjective experience that thoughts are racing'] == -1):
+        questions = ["Do you find your thoughts racing?",
+                     "Do you find it difficult to keep track of your thought?",
+                     "Do your thoughts jump from place to place that makes it difficult for you to keep track of them?"]
+        random_question = random.choice(questions)
+        engine.say(random_question)
+        engine.runAndWait()
+        # input2 = input(random_question)
+        print(random_question)
+        start_time = time.time()
+        with sr.Microphone() as mic:
+            print('You can start talking now')
+            audio = rec.listen(mic)
+            print('Time is over')
+        # Voice recognition
+        try:
+            input2 = rec.recognize_google(audio)
+        except:
+            print('ERROR')
+        print(input2)
+        end_time = time.time()
+        elapsed_time = end_time - start_time
+        total_duration += elapsed_time
+        countOfWords += len(input2.split())
+
+        response2 = openai.Completion.create(
+
+            #  prompt=prompt2,
+            prompt='a person who could potentialy be in a manic episode got asked this question : "'+random_question + \
+            '" trying to identify it he has flight of ideas or subjective experience that thoughts are racing, analyse the answer and answer by "0" if you couldn t identify the symptom or by "1" if you could identify the symptom or "-1" if you can not confirm nor deny ,only answer by 1 or 0 or -1, here is the answer :' + input2,
+            model=model,
+            max_tokens=10
+        )
+        print(response2.choices[0].text)
+        if (response2.choices[0].text == "\n\n0"):
+            data['manic symptoms']['Decreased need for sleep'] = 0
+        elif (response2.choices[0].text == "\n\n1"):
+            data['manic symptoms']['Decreased need for sleep'] = 1
+        elif (response2.choices[0].text == "\n\n-1"):
+            data['manic symptoms']['Decreased need for sleep'] = -1
+        print(data)
+
+    # 7 Test for Distractibility (not working)
+    if (data['manic symptoms']['Distractibility (i.e., attention too easily drawn to unimportant or irrelevant external stimuli)'] == -1):
+        questions = ["Do you find your thoughts racing?",
+                     "Do you find it difficult to keep track of your thought?",
+                     "Do your thoughts jump from place to place that makes it difficult for you to keep track of them?"]
+        random_question = random.choice(questions)
+        engine.say(random_question)
+        engine.runAndWait()
+        # input2 = input(random_question)
+        print(random_question)
+        start_time = time.time()
+        with sr.Microphone() as mic:
+            print('You can start talking now')
+            audio = rec.listen(mic)
+            print('Time is over')
+        # Voice recognition
+        try:
+            input2 = rec.recognize_google(audio)
+        except:
+            print('ERROR')
+        print(input2)
+        end_time = time.time()
+        elapsed_time = end_time - start_time
+        total_duration += elapsed_time
+        countOfWords += len(input2.split())
+
+        response2 = openai.Completion.create(
+
+            #  prompt=prompt2,
+            prompt='a person who could potentialy be in a manic episode got asked this question : "'+random_question + \
+            '" trying to identify it he has flight of ideas or subjective experience that thoughts are racing, analyse the answer and answer by "0" if you couldn t identify the symptom or by "1" if you could identify the symptom or "-1" if you can not confirm nor deny ,only answer by 1 or 0 or -1, here is the answer :' + input2,
+            model=model,
+            max_tokens=10
+        )
+        print(response2.choices[0].text)
+        if (response2.choices[0].text == "\n\n0"):
+            data['manic symptoms']['Decreased need for sleep'] = 0
+        elif (response2.choices[0].text == "\n\n1"):
+            data['manic symptoms']['Decreased need for sleep'] = 1
+        elif (response2.choices[0].text == "\n\n-1"):
+            data['manic symptoms']['Decreased need for sleep'] = -1
+        print(data)
+
+    # 8 Test for Increase in goal-directed activity
+    if (data['manic symptoms']['Increase in goal-directed activity (either socially, at work or school, or sexually) or psychomotor agitation'] == -1):
+        questions = ["Have you taken on any new activities lately?",
+                     "Have you come across any brilliant ideas lately?"]
+        random_question = random.choice(questions)
+        engine.say(random_question)
+        engine.runAndWait()
+        # input2 = input(random_question)
+        print(random_question)
+        start_time = time.time()
+        with sr.Microphone() as mic:
+            print('You can start talking now')
+            audio = rec.listen(mic)
+            print('Time is over')
+        # Voice recognition
+        try:
+            input2 = rec.recognize_google(audio)
+        except:
+            print('ERROR')
+        print(input2)
+        end_time = time.time()
+        elapsed_time = end_time - start_time
+        total_duration += elapsed_time
+        countOfWords += len(input2.split())
+
+        response2 = openai.Completion.create(
+
+            #  prompt=prompt2,
+            prompt='a person who could potentialy be in a manic episode got asked this question : "'+random_question + \
+            '" trying to identify any increase in goal-directed activity (either socially, at work or school, or sexually), analyse the answer and answer by "0" if you couldn t identify the symptom or by "1" if you could identify the symptom or "-1" if you can not confirm nor deny ,only answer by 1 or 0 or -1, here is the answer :' + input2,
+            model=model,
+            max_tokens=10
+        )
+        print(response2.choices[0].text)
+        if (response2.choices[0].text == "\n\n0"):
+            data['manic symptoms']['Decreased need for sleep'] = 0
+        elif (response2.choices[0].text == "\n\n1"):
+            data['manic symptoms']['Decreased need for sleep'] = 1
+        elif (response2.choices[0].text == "\n\n-1"):
+            data['manic symptoms']['Decreased need for sleep'] = -1
+        print(data)
+
+    # 9 Test for Excessive involvement in activities that have a high potential for painful consequence
+    if (data['manic symptoms']['Excessive involvement in activities that have a high potential for painful consequences (e.g., engaging in unrestrained buying sprees, sexual indiscretions, or foolish business investments).'] == -1):
+        questions = ["Have you been doing things that are out of character for you ?",
+                     "Have you done things that were unusual for you or that other people might have thought were excessive, foolish, or risky?"]
+        random_question = random.choice(questions)
+        engine.say(random_question)
+        engine.runAndWait()
+        # input2 = input(random_question)
+        print(random_question)
+        start_time = time.time()
+        with sr.Microphone() as mic:
+            print('You can start talking now')
+            audio = rec.listen(mic)
+            print('Time is over')
+        # Voice recognition
+        try:
+            input2 = rec.recognize_google(audio)
+        except:
+            print('ERROR')
+        print(input2)
+        end_time = time.time()
+        elapsed_time = end_time - start_time
+        total_duration += elapsed_time
+        countOfWords += len(input2.split())
+
+        response2 = openai.Completion.create(
+
+            #  prompt=prompt2,
+            prompt='a person who could potentialy be in a manic episode got asked this question : "'+random_question + \
+            '" trying to identify any Excessive involvement in activities that have a high potential for painful consequences, analyse the answer and answer by "0" if you couldn t identify the symptom or by "1" if you could identify the symptom or "-1" if you can not confirm nor deny ,only answer by 1 or 0 or -1, here is the answer :' + input2,
+            model=model,
+            max_tokens=10
+        )
+        print(response2.choices[0].text)
+        if (response2.choices[0].text == "\n\n0"):
+            data['manic symptoms']['Decreased need for sleep'] = 0
+        elif (response2.choices[0].text == "\n\n1"):
+            data['manic symptoms']['Decreased need for sleep'] = 1
+        elif (response2.choices[0].text == "\n\n-1"):
+            data['manic symptoms']['Decreased need for sleep'] = -1
+        print(data)
+
+    # 11 Test for physiological effects of a substance
+    if (data['manic symptoms']['The episode is not attributable to the direct physiological effects of a substance (e.g., a drug of abuse, a medication, or other treatment) or another medical condition.'] == -1):
+        questions = ["Have you used any drugs or alcohol lately?",
+                     "Have you been diagnosed with any medical conditions that could be causing these symptoms?"]
+        random_question = random.choice(questions)
+        engine.say(random_question)
+        engine.runAndWait()
+        # input2 = input(random_question)
+        print(random_question)
+        start_time = time.time()
+        with sr.Microphone() as mic:
+            print('You can start talking now')
+            audio = rec.listen(mic)
+            print('Time is over')
+        # Voice recognition
+        try:
+            input2 = rec.recognize_google(audio)
+        except:
+            print('ERROR')
+        print(input2)
+        end_time = time.time()
+        elapsed_time = end_time - start_time
+        total_duration += elapsed_time
+        countOfWords += len(input2.split())
+
+        response2 = openai.Completion.create(
+
+            #  prompt=prompt2,
+            prompt='a person who could potentialy be in a manic episode got asked this question : "'+random_question + \
+            '" trying to identify if the episode is not attributable to the direct physiological effects of a substance (e.g., a drug of abuse, a medication, or other treatment) or another medical condition , analyse the answer and answer by "0" if you couldn t identify the symptom or by "1" if you could identify the symptom or "-1" if you can not confirm nor deny ,only answer by 1 or 0 or -1, here is the answer :' + input2,
+            model=model,
+            max_tokens=10
+        )
+        print(response2.choices[0].text)
+        if (response2.choices[0].text == "\n\n0"):
+            data['manic symptoms']['Decreased need for sleep'] = 0
+        elif (response2.choices[0].text == "\n\n1"):
+            data['manic symptoms']['Decreased need for sleep'] = 1
+        elif (response2.choices[0].text == "\n\n-1"):
+            data['manic symptoms']['Decreased need for sleep'] = -1
+        print(data)
     # check if symptoms are checked
     if (data['manic symptoms']['elevated mood for more than one week'] != -1
         and data['manic symptoms']['elevated mood nearly everyday'] != -1
         and data['manic symptoms']['Inflated self-esteem or grandiosity'] != -1
-            and data['manic symptoms']['Decreased need for sleep'] != -1):
+        and data['manic symptoms']['Decreased need for sleep'] != -1
+        and data['manic symptoms']['More talkative than usual or pressure to keep talking'] != -1
+        and data['manic symptoms']['Flight of ideas or subjective experience that thoughts are racing'] != -1
+        and data['manic symptoms']['Increase in goal-directed activity (either socially, at work or school, or sexually) or psychomotor agitation'] != -1
+        and data['manic symptoms']['Excessive involvement in activities that have a high potential for painful consequences (e.g., engaging in unrestrained buying sprees, sexual indiscretions, or foolish business investments).'] != -1
+            and data['manic symptoms']['The episode is not attributable to the direct physiological effects of a substance (e.g., a drug of abuse, a medication, or other treatment) or another medical condition.'] != -1):
         end = 1
 
     # counter for number of loops
     loop_three_times += 1
 
-print("number of words is : " + str(countOfWords))
-print("speech duration in secconds : " + str(total_duration))
+print("Number of words is : " + str(countOfWords))
+print("Speech duration in secconds : " + str(total_duration))
 total_duration_minutes = total_duration / 60
-print("speech duration in minutes : " + str(total_duration_minutes))
+print("Speech duration in minutes : " + str(total_duration_minutes))
 speech_duration = timedelta(seconds=total_duration)
-print("speech duration hh:mm:ss -> "+str(speech_duration))
+print("Speech duration HH:mm:ss -> "+str(speech_duration))
 words_per_minute = countOfWords // total_duration_minutes
-print("words per minute : " + str(words_per_minute))
+print("Words per minute : " + str(words_per_minute))
