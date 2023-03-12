@@ -10,6 +10,7 @@ import userRoute from './routes/userRoute.js';
 const app = express();
 const port = process.env.PORT || 9090;
 const databaseName = 'dearSelf';
+const hostname = 'localhost';
 
 //mongoose.set('debug', true);
 mongoose.Promise = global.Promise;
@@ -54,6 +55,16 @@ app.use('/user', userRoute);
 app.use('/image', express.static('public/images'));
 app.use(notFoundError);
 app.use(errorHandler);
-app.listen(port, () => {
-    console.log(`Server running at http://localhost:${port}/`);
+
+app._router.stack.forEach(function(middleware){
+  if(middleware.route){
+    console.log(middleware.route);
+  } else if(middleware.name === 'router'){
+    middleware.handle.stack.forEach(function(handler){
+      console.log(handler.route);
+    });
+    } } )
+
+app.listen(port, hostname,() => {
+    console.log(`Server running at http://${hostname}:${port}/`);
   });
