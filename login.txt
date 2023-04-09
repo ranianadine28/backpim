@@ -1,0 +1,24 @@
+email : hamza@gmail.com
+mdp : 12345678
+role : user
+
+
+
+
+email : jean@gmail.com
+mdp : 12345678
+role : doctor
+
+
+email : wajdi@gmail.com
+mdp : 12345678
+role : doctor
+
+
+email : rania@gmail.com
+mdp : 12345678
+role : patient
+
+
+
+
